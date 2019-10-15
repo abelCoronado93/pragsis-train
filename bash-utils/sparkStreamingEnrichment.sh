@@ -2,4 +2,4 @@
 
 # INFO : ejecucion sparkStreamingEnrichment
 
-java -jar /home/luis.bartol/scripts/sparkStreamingEnrichment-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar /path/to/jar/sparkStreamingEnrichment-1.0-SNAPSHOT-jar-with-dependencies.jar
