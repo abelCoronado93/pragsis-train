@@ -1,6 +1,7 @@
+SET hive.exec.dynamic.partition=true;
 SET hive.exec.dynamic.partition.mode=nonstrict;
 
-CREATE EXTERNAL TABLE bd_prueba.ut_data_partitioned
+CREATE EXTERNAL TABLE IF NOT EXISTS grupo01.ut_data
 (Timestamp BIGINT,
 PLC_CCTVyDILAX INT,
 PLC_DesbloqPuM1R1 INT,
@@ -327,5 +328,8 @@ SDI_M2_R1_SwV INT,
 SDI_M2_R2_SwV INT,
 SDI_M2_M2_SwV INT,
 SDI_M2_CV INT)
-PARTITIONED BY (year int, month int, day int)
-LOCATION '/user/luis.bartol/csv/arq_partitioned';
+PARTITIONED BY (ut int, year int, month int, day int)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\073'
+STORED AS TEXTFILE
+LOCATION '/user/master/grupo1/raw'
+tblproperties ("skip.header.line.count"="1");
