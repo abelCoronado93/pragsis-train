@@ -36,11 +36,9 @@ object ScalaAggrs {
     var dfPurge = dfCSV
     for (col_name <- dfCSV.columns){
       if (dfCSV.schema(col_name).dataType.typeName == "boolean"){
-        var dfPercent = dfCSV.select("*").
-          where(col_name).
-          groupBy("hour").
-          agg(count(col_name).alias(s"$col_name" + "_sumTrues")).
-          withColumn(s"$col_name"+"_percentage", (col(s"$col_name" + "_sumTrues") / dfCSV.count()) * 100)
+        var dfPercent = dfCSV.groupBy("hour").
+          agg(sum(col(col_name).cast("integer")).alias(s"$col_name"+"_SumTrues"),
+              mean(col(col_name).cast("integer")).multiply(100).alias(s"$col_name"+"_percentage"))
         if (register) {
           dfPercent.registerTempTable("joinMaster")
           register = false
@@ -69,3 +67,5 @@ object ScalaAggrs {
     sqlContext.sql("create external table bd_prueba.failures location '/user/master/grupo1/comsumption/failures/' as select * from joinMaster")
   }
 }
+
+// Testing : dfCSV = dfCSV.withColumn("sdi_m1_m_sts1w", dfCSV.col("sdi_m1_m_sts1w").cast("boolean"))
